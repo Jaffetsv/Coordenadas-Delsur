@@ -55,7 +55,7 @@
       align-items: center;
       margin-top: 1rem;
     ">
-      <input type="text" id="searchInput" placeholder="Ingrese el valor a buscar" onkeypress="if(event.key==='Enter'){buscar()}">
+      <input type="text" id="searchInput" placeholder="Ingrese el elemento a buscar" onkeypress="if(event.key==='Enter'){buscar()}">
       <div id="manualCoords" style="display: none;">
         <input type="number" id="latInput" placeholder="Latitud" step="any">
         <input type="number" id="lonInput" placeholder="Longitud" step="any">
@@ -63,28 +63,11 @@
       <button onclick="buscar()">Buscar</button>
     </div>
     <div class="result" id="result"></div>
-       <div id="tabla-cercanos" class="result" style="overflow-x:auto;"></div>
     <div id="map"></div>
   </main>
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js">
-    function centrarEnMapa(lat, lon, placa, alimentador) {
-      map.setView([lat, lon], 17);
-      const popupText = `<b>${placa}</b><br>${lat}, ${lon}<br>${alimentador}<br>
-        <a href='https://www.google.com/maps?q=${lat},${lon}' target='_blank'>📍 Ver en Google Maps</a>`;
-      const marker = L.marker([lat, lon]).addTo(markerLayer);
-      marker.bindPopup(popupText).openPopup();
-    }
-    </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
-    function centrarEnMapa(lat, lon, placa, alimentador) {
-      map.setView([lat, lon], 17);
-      const popupText = `<b>${placa}</b><br>${lat}, ${lon}<br>${alimentador}<br>
-        <a href='https://www.google.com/maps?q=${lat},${lon}' target='_blank'>📍 Ver en Google Maps</a>`;
-      const marker = L.marker([lat, lon]).addTo(markerLayer);
-      marker.bindPopup(popupText).openPopup();
-    }
-    </script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script>
     let placas = [];
     let contratos = [];
@@ -111,8 +94,7 @@
 
       contratos = contratosSheet.map(row => ({
         contrato: row['Contrato'].toString().trim(),
-        ds: row['Referencia'],
-        alimentador: row['Alimentador'],
+        ds: row['DS'],
         lat: row['Latitud'],
         lon: row['Longuitud']
       }));
@@ -144,7 +126,7 @@
 
       } else if (tipo === 'contrato') {
         const item = contratos.find(c => c.contrato.toLowerCase().trim() === valor);
-        if (item) mostrarResultado(item.ds, item.lat, item.lon, item.alimentador || 'N/D');
+        if (item) mostrarResultado(item.ds, item.lat, item.lon, 'N/D');
         else alert('No se encontró el contrato.');
 
       } else if (tipo === 'ubicacion') {
@@ -187,7 +169,7 @@
 
     function mostrarCercanos(lat, lon) {
       const todos = [...placas, ...contratos.map(c => ({
-        placa: c.ds, lat: c.lat, lon: c.lon, alimentador: c.alimentador || 'N/D'
+        placa: c.ds, lat: c.lat, lon: c.lon, alimentador: 'N/D'
       }))];
       todos.forEach(p => {
         p.distancia = Math.sqrt((p.lat - lat) ** 2 + (p.lon - lon) ** 2);
@@ -203,29 +185,11 @@
         Ubicación actual: ${lat.toFixed(6)}, ${lon.toFixed(6)}<br>
         <a href='https://www.google.com/maps?q=${lat},${lon}' target='_blank'>📍 Ver en Google Maps</a>
       `;
-
-      let tablaHTML = "<table border='1' cellpadding='6' style='border-collapse:collapse; width:auto; text-align:left;'>";
-      tablaHTML += "<thead><tr><th>Elemento</th><th>Alimentador</th><th>Distancia (m)</th></tr></thead><tbody>";
-      cercanos.forEach(p => {
-        const distanciaM = (p.distancia * 111139).toFixed(1);
-        const idFila = `punto_${p.lat}_${p.lon}`.replace(/\./g, '_');
-        tablaHTML += `<tr><td><a href='#' onclick='event.preventDefault(); centrarEnMapa(${p.lat}, ${p.lon}, "${p.placa}", "${p.alimentador}")'>${p.placa}</a></td><td>${p.alimentador}</td><td>${distanciaM}</td></tr>`;
-      });
-      tablaHTML += "</tbody></table>";
-      document.getElementById('tabla-cercanos').innerHTML = tablaHTML;
       map.setView([lat, lon], 14);
     }
 
     cargarDatos();
     mostrarOpcionesUbicacion();
-  
-    function centrarEnMapa(lat, lon, placa, alimentador) {
-      map.setView([lat, lon], 17);
-      const popupText = `<b>${placa}</b><br>${lat}, ${lon}<br>${alimentador}<br>
-        <a href='https://www.google.com/maps?q=${lat},${lon}' target='_blank'>📍 Ver en Google Maps</a>`;
-      const marker = L.marker([lat, lon]).addTo(markerLayer);
-      marker.bindPopup(popupText).openPopup();
-    }
-    </script>
+  </script>
 </body>
 </html>
