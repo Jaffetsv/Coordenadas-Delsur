@@ -56,12 +56,20 @@
       margin-top: 1rem;
     ">
       <input type="text" id="searchInput" placeholder="Ingrese el valor a buscar" onkeypress="if(event.key==='Enter'){buscar()}">
-      <div id="manualCoords" style="display: none;">
-      <button type="button" onclick="usarUbicacionActual()" style="background:#006699; color:white;">📍 Mi Ubicación Actual</button><br><br>
-        <input type="number" id="latInput" placeholder="Latitud" step="any">
-        <input type="number" id="lonInput" placeholder="Longitud" step="any">
-      </div>
-      <button onclick="buscar()">Buscar</button>
+      <div id="manualCoords" style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.5rem;">
+      <style>
+        #manualCoords button,
+        #manualCoords input {
+          height: 40px;
+          box-sizing: border-box;
+          vertical-align: middle;
+        }
+      </style>
+      <button type="button" onclick="usarUbicacionActual()" style="background:#006699; color:white; padding: 0.5rem 1rem;">📍 Mi Ubicación Actual</button>
+      <input type="number" id="latInput" placeholder="Latitud" step="any" style="min-width: 120px;">
+      <input type="number" id="lonInput" placeholder="Longitud" step="any" style="min-width: 120px;">
+    </div>
+      <button onclick="buscar()" style="height: 40px; padding: 0.5rem 1rem; background: #006699; color: white; border: none; cursor: pointer;">Buscar</button>
     </div>
     <div class="result" id="result"></div>
        <div id="tabla-cercanos" class="result" style="overflow-x:auto;"></div>
