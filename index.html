@@ -111,7 +111,8 @@
 
       contratos = contratosSheet.map(row => ({
         contrato: row['Contrato'].toString().trim(),
-        ds: row['DS'],
+        ds: row['Referencia'],
+        alimentador: row['Alimentador'],
         lat: row['Latitud'],
         lon: row['Longuitud']
       }));
@@ -143,7 +144,7 @@
 
       } else if (tipo === 'contrato') {
         const item = contratos.find(c => c.contrato.toLowerCase().trim() === valor);
-        if (item) mostrarResultado(item.ds, item.lat, item.lon, 'N/D');
+        if (item) mostrarResultado(item.ds, item.lat, item.lon, item.alimentador || 'N/D');
         else alert('No se encontró el contrato.');
 
       } else if (tipo === 'ubicacion') {
@@ -186,7 +187,7 @@
 
     function mostrarCercanos(lat, lon) {
       const todos = [...placas, ...contratos.map(c => ({
-        placa: c.ds, lat: c.lat, lon: c.lon, alimentador: 'N/D'
+        placa: c.ds, lat: c.lat, lon: c.lon, alimentador: c.alimentador || 'N/D'
       }))];
       todos.forEach(p => {
         p.distancia = Math.sqrt((p.lat - lat) ** 2 + (p.lon - lon) ** 2);
