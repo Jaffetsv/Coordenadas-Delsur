@@ -245,10 +245,13 @@ function limpiarBusqueda() {
         Alimentador: ${alimentador}
       `;
       const marker = L.marker([lat, lon]).addTo(markerLayer);
-      const ruta = userLocation ? 
+      const gmaps = userLocation ? 
         `https://www.google.com/maps/dir/${userLocation[0]},${userLocation[1]}/${lat},${lon}/` :
         `https://www.google.com/maps?q=${lat},${lon}`;
-      marker.bindPopup(`<b>${nombre}</b><br>${lat}, ${lon}<br>${alimentador}<br><a href='${ruta}' target='_blank'>➡ Ver ruta en Google Maps</a>`).openPopup();
+      const waze = `https://waze.com/ul?ll=${lat},${lon}&navigate=yes`;
+      marker.bindPopup(`<b>${nombre}</b><br>${lat}, ${lon}<br>${alimentador}<br>
+        <a href='${gmaps}' target='_blank'>➡ Google Maps</a> | 
+        <a href='${waze}' target='_blank'>🚗 Waze</a>`).openPopup();
       map.setView([lat, lon], 16);
     }
 
