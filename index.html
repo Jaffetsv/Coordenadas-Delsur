@@ -269,14 +269,29 @@ const waze = `https://waze.com/ul?ll=${p.lat},${p.lon}&navigate=yes`;
         
       `;
 
-      let tablaHTML = "<table border='1' cellpadding='6' style='border-collapse:collapse; width:100%; text-align:center;'>";
+      let tablaHTML = `<table style="
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-family: sans-serif;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+">
+<thead>
+<tr style="background-color:#006699; color:white;">
+  <th style="padding:10px; border:1px solid #ccc;">Elemento</th>
+  <th style="padding:10px; border:1px solid #ccc;">Alimentador</th>
+  <th style="padding:10px; border:1px solid #ccc;">Distancia (m)</th>
+  <th style="padding:10px; border:1px solid #ccc;">Mapa</th>
+</tr>
+</thead><tbody>`;
       tablaHTML += "<thead><tr><th>Elemento</th><th>Alimentador</th><th>Distancia (m)</th><th>Mapa</th></tr></thead><tbody>";
       cercanos.forEach(p => {
         const distanciaM = (p.distancia * 111139).toFixed(1);
         const idFila = `punto_${p.lat}_${p.lon}`.replace(/\./g, '_');
         const gmaps = `https://www.google.com/maps?q=${p.lat},${p.lon}`;
 const waze = `https://waze.com/ul?ll=${p.lat},${p.lon}&navigate=yes`;
-tablaHTML += `<tr><td><a href='#' onclick='event.preventDefault(); centrarEnMapa(${p.lat}, ${p.lon}, "${p.placa}", "${p.alimentador}")'>${p.placa}</a></td><td>${p.alimentador}</td><td>${distanciaM}</td><td><a href="${gmaps}" target="_blank">Maps</a> | <a href="${waze}" target="_blank">Waze</a></td></tr>`;
+tablaHTML += `<tr><td style="padding:8px; border:1px solid #ccc;"><a href='#' onclick='event.preventDefault(); centrarEnMapa(${p.lat}, ${p.lon}, "${p.placa}", "${p.alimentador}")'>${p.placa}</a></td><td style="padding:8px; border:1px solid #ccc;">${p.alimentador}</td><td style="padding:8px; border:1px solid #ccc;">${distanciaM}</td><td style="padding:8px; border:1px solid #ccc;"><a href="${gmaps}" target="_blank">Maps</a> | <a href="${waze}" target="_blank">Waze</a></td></tr>`;
       });
       tablaHTML += "</tbody></table>";
       document.getElementById('tabla-cercanos').innerHTML = "<strong>10 elementos más cercanos</strong><br><br>" + tablaHTML;
