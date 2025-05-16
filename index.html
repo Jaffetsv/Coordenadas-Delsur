@@ -269,7 +269,7 @@ const waze = `https://waze.com/ul?ll=${p.lat},${p.lon}&navigate=yes`;
         
       `;
 
-      let tablaHTML = "<table border='1' cellpadding='6' style='border-collapse:collapse; width:auto; text-align:left;'>";
+      let tablaHTML = "<table border='1' cellpadding='6' style='border-collapse:collapse; width:100%; text-align:center;'>";
       tablaHTML += "<thead><tr><th>Elemento</th><th>Alimentador</th><th>Distancia (m)</th><th>Mapa</th></tr></thead><tbody>";
       cercanos.forEach(p => {
         const distanciaM = (p.distancia * 111139).toFixed(1);
