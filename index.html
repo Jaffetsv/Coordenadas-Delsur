@@ -274,18 +274,20 @@ const waze = `https://waze.com/ul?ll=${p.lat},${p.lon}&navigate=yes`;
   border-collapse: collapse;
   text-align: center;
   font-family: sans-serif;
-  background: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 ">
 <thead>
 <tr style="background-color:#006699; color:white;">
-  <th style="padding:10px; border:1px solid #ccc;">Elemento</th>
-  <th style="padding:10px; border:1px solid #ccc;">Alimentador</th>
-  <th style="padding:10px; border:1px solid #ccc;">Distancia (m)</th>
-  <th style="padding:10px; border:1px solid #ccc;">Mapa</th>
+  <th style="padding:12px 8px; border-bottom: 2px solid #004d66;">Elemento</th>
+  <th style="padding:12px 8px; border-bottom: 2px solid #004d66;">Alimentador</th>
+  <th style="padding:12px 8px; border-bottom: 2px solid #004d66;">Distancia (m)</th>
+  <th style="padding:12px 8px; border-bottom: 2px solid #004d66;">Mapa</th>
 </tr>
 </thead><tbody>`;
-      tablaHTML += "<thead><tr><th>Elemento</th><th>Alimentador</th><th>Distancia (m)</th><th>Mapa</th></tr></thead><tbody>";
+      tablaHTML += "<tbody>";
       cercanos.forEach(p => {
         const distanciaM = (p.distancia * 111139).toFixed(1);
         const idFila = `punto_${p.lat}_${p.lon}`.replace(/\./g, '_');
