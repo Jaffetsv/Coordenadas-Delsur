@@ -252,6 +252,15 @@ function limpiarBusqueda() {
       marker.bindPopup(`<b>${nombre}</b><br>${lat}, ${lon}<br>${alimentador}<br>
         <a href='${gmaps}' target='_blank'>➡ Google Maps</a> | 
         <a href='${waze}' target='_blank'>🚗 Waze</a>`).openPopup();
+      
+      if (userLocation) {
+        L.marker(userLocation, {
+          icon: L.icon({
+            iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png'
+          })
+        }).addTo(markerLayer).bindPopup('Tu ubicación').openPopup();
+      }
+
       map.setView([lat, lon], 16);
     }
 
